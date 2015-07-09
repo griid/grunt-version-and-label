@@ -37,7 +37,7 @@ module.exports = function(grunt) {
       }).join(grunt.util.normalizelf(options.separator));
 
       // Handle options.
-      src += options.punctuation;
+      //src += options.punctuation;
 
       // Write the destination file.
       grunt.file.write(f.dest, src);
