@@ -1,3 +1,12 @@
 {
-  "build": 12
+	"name": "grunt-version-and-label",
+	"description": "Grunt task to manage versioning and displaying on page",
+	"version": "0.1.0",
+	"homepage": "https://github.com/krzysztofnowak/grunt-version-and-label",
+	"author": {
+		"name": "Krzysztof Nowak",
+		"email": "mail@krzysztofnowak.net",
+		"url": "krzysztofnowak.net"
+	},
+	"build": 13
 }

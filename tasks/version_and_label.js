@@ -13,6 +13,8 @@ module.exports = function(grunt) {
   // Please see the Grunt documentation for more information regarding task
   // creation: http://gruntjs.com/creating-tasks
 
+	var buildNumber;
+
   grunt.registerMultiTask('version_and_label', 'Grunt task to manage versioning and displaying on page', function() {
     // Merge task-specific and/or target-specific options with these defaults.
     var options = this.options({
@@ -36,11 +38,19 @@ module.exports = function(grunt) {
         return grunt.file.read(filepath);
       }).join(grunt.util.normalizelf(options.separator));
 
-      // Handle options.
-      //src += options.punctuation;
+	    var inputConfig = JSON.parse(src);
+	    buildNumber = inputConfig.build;
+
+	    buildNumber += 1;
+
+	    inputConfig.build = buildNumber;
+
+	    var modifiedInputConfig = JSON.stringify(inputConfig, null, '\t');
+
+	    grunt.log.writeln('test: '+ buildNumber);
 
       // Write the destination file.
-      grunt.file.write(f.dest, src);
+      grunt.file.write(f.dest, modifiedInputConfig);
 
       // Print a success message.
       grunt.log.writeln('File "' + f.dest + '" created.');
