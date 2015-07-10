@@ -35,6 +35,10 @@ module.exports = function (grunt) {
 				src: 'test/pattern/**',
 				dest: 'test/tmp/',
 				filter: 'isFile'
+			},
+			tmp: {
+				src: 'package.json',
+				dest: 'tmp/package.json'
 			}
 		},
 
@@ -44,9 +48,6 @@ module.exports = function (grunt) {
 			custom_options: {
 				options: {
 					dir: 'test/tmp/'
-				},
-				files: {
-					'tmp/custom_options': ['test/fixtures/index.htm', 'test/fixtures/package.json']
 				}
 			}
 		},
@@ -69,8 +70,8 @@ module.exports = function (grunt) {
 
 	// Whenever the "test" task is run, first clean the "tmp" dir, then run this
 	// plugin's task(s), then test the result.
-	//grunt.registerTask('test', ['clean', 'copy', 'version_and_label', 'nodeunit']);
-	grunt.registerTask('test', ['copy', 'version_and_label']);
+	grunt.registerTask('test', ['clean', 'copy', 'version_and_label', 'nodeunit']);
+	//grunt.registerTask('test', ['copy', 'version_and_label']);
 
 	// By default, lint and run all tests.
 	grunt.registerTask('default', ['jshint', 'test']);
