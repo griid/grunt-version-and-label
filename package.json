@@ -1,42 +1,44 @@
 {
-  "name": "grunt-version-and-label",
-  "description": "Grunt task to manage versioning and displaying on page",
-  "version": "0.1.0",
-  "homepage": "https://github.com/krzysztofnowak/grunt-version-and-label",
-  "author": {
-    "name": "Krzysztof Nowak",
-    "email": "mail@krzysztofnowak.net",
-    "url": "krzysztofnowak.net"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/krzysztofnowak/grunt-version-and-label.git"
-  },
-  "bugs": {
-    "url": "https://github.com/krzysztofnowak/grunt-version-and-label/issues"
-  },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/krzysztofnowak/grunt-version-and-label/blob/master/LICENSE-MIT"
-    }
-  ],
-  "engines": {
-    "node": ">= 0.8.0"
-  },
-  "scripts": {
-    "test": "grunt test"
-  },
-  "devDependencies": {
-    "grunt-contrib-jshint": "^0.9.2",
-    "grunt-contrib-clean": "^0.5.0",
-    "grunt-contrib-nodeunit": "^0.3.3",
-    "grunt": "~0.4.5"
-  },
-  "peerDependencies": {
-    "grunt": "~0.4.5"
-  },
-  "keywords": [
-    "gruntplugin"
-  ]
+	"name": "grunt-version-and-label",
+	"description": "Grunt task to manage versioning and displaying on page",
+	"version": "0.1.0",
+	"homepage": "https://github.com/krzysztofnowak/grunt-version-and-label",
+	"author": {
+		"name": "Krzysztof Nowak",
+		"email": "mail@krzysztofnowak.net",
+		"url": "krzysztofnowak.net"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/krzysztofnowak/grunt-version-and-label.git"
+	},
+	"bugs": {
+		"url": "https://github.com/krzysztofnowak/grunt-version-and-label/issues"
+	},
+	"licenses": [
+		{
+			"type": "MIT",
+			"url": "https://github.com/krzysztofnowak/grunt-version-and-label/blob/master/LICENSE-MIT"
+		}
+	],
+	"engines": {
+		"node": ">= 0.8.0"
+	},
+	"scripts": {
+		"test": "grunt test"
+	},
+	"devDependencies": {
+		"grunt": "~0.4.5",
+		"grunt-contrib-clean": "^0.5.0",
+		"grunt-contrib-copy": "^0.8.0",
+		"grunt-contrib-jshint": "^0.9.2",
+		"grunt-contrib-nodeunit": "^0.3.3"
+	},
+	"peerDependencies": {
+		"grunt": "~0.4.5"
+	},
+	"keywords": [
+		"gruntplugin"
+	],
+	"build": 18
 }
