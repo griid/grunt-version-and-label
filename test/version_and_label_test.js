@@ -28,24 +28,20 @@ exports.version_and_label = {
 		done();
 	},
 	default_options: function (test) {
-		//test.expect(1);
+		test.expect(1);
 
-		//TODO
-		// compare tmp/package.json with package.json
-		// check if build is incremented
-		//
-		//var actual = grunt.file.read('test/tmp/package.json');
-		//var expected = grunt.file.read('test/expected/package.json');
-		//test.equal(actual, expected, 'should describe what the default behavior is.');
+		var actual = JSON.parse(grunt.file.read('package.json')).build;
+		var previous = JSON.parse(grunt.file.read('tmp/package.json')).build;
+		test.equal(actual, previous+1, 'Build number is incremented by one');
 
 		test.done();
 	},
 	custom_options: function (test) {
 		test.expect(1);
 
-		var actual = grunt.file.read('test/tmp/package.json');
-		var expected = grunt.file.read('test/expected/package.json');
-		test.equal(actual, expected, 'should describe what the custom option(s) behavior is.');
+		var actual = grunt.file.read('test/tmp/build.json');
+		var expected = grunt.file.read('test/expected/build.json');
+		test.equal(actual, expected, 'Custom parameters allows choosing files');
 
 		test.done();
 	}

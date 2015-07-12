@@ -25,7 +25,8 @@ module.exports = function (grunt) {
 
 		// Before generating any new files, remove any previously-created files.
 		clean: {
-			tests: ['tmp']
+			tests: ['test/tmp'],
+			tmp: ['tmp']
 		},
 
 		copy: {
@@ -47,7 +48,8 @@ module.exports = function (grunt) {
 			default_options: {},
 			custom_options: {
 				options: {
-					dir: 'test/tmp/'
+					dir: 'test/tmp/',
+					pkg: 'build.json'
 				}
 			}
 		},
