@@ -44,12 +44,20 @@ module.exports = function (grunt) {
 		},
 
 		// Configuration to be run (and then tested).
-		version_and_label: {
+		version: {
 			default_options: {},
 			custom_options: {
 				options: {
 					dir: 'test/tmp/',
 					pkg: 'build.json'
+				}
+			}
+		},
+
+		label: {
+			custom_options: {
+				options: {
+					dir: 'test/tmp/'
 				}
 			}
 		},
@@ -72,8 +80,7 @@ module.exports = function (grunt) {
 
 	// Whenever the "test" task is run, first clean the "tmp" dir, then run this
 	// plugin's task(s), then test the result.
-	grunt.registerTask('test', ['clean', 'copy', 'version_and_label', 'nodeunit']);
-	//grunt.registerTask('test', ['copy', 'version_and_label']);
+	grunt.registerTask('test', ['clean', 'copy', 'version', 'label', 'nodeunit']);
 
 	// By default, lint and run all tests.
 	grunt.registerTask('default', ['jshint', 'test']);
