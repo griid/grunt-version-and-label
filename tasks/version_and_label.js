@@ -10,96 +10,86 @@
 
 module.exports = function (grunt) {
 
-	// Please see the Grunt documentation for more information regarding task
-	// creation: http://gruntjs.com/creating-tasks
+    grunt.registerMultiTask('version', 'Grunt task to increment build number', function () {
+        // Merge default options with customized in Gruntfile.js
+        var options = this.options({
+            pkg: 'package.json'
+        });
 
-	var buildNumber;
-	var labelPattern = '<!-- version-label -->';
+        if (!grunt.file.exists(options.pkg)) {
+            grunt.log.warn('Source file "' + options.pkg + '" not found.');
+            return false;
+        }
 
+        // Read file
+        var src = grunt.file.read(options.pkg),
+            // Convert to object, find build and increment number
+            inputConfig = JSON.parse(src);
 
-	grunt.registerMultiTask('version', 'Grunt task to manage versioning and displaying on page', function () {
-		// Merge task-specific and/or target-specific options with these defaults.
-		var options = this.options({
-			dir: '',
-			pkg: 'package.json'
-		});
+        // Increment build number
+        inputConfig.build = inputConfig.build + 1;
 
-		var filepathIn = options.dir + options.pkg;
-		var filepathOut = options.dir + options.pkg;
-		// Iterate over all specified file groups.
-		//options.pkg.forEach(function(f) {
-		//  // Handle reading file
-		//  var src = f.src.filter(function(filepath) {
-		// Warn on and remove invalid source files (if nonull was set).
-		if (!grunt.file.exists(filepathIn)) {
-			grunt.log.warn('Source file "' + filepathIn + '" not found.');
-			return false;
-		}
-		//}).map(function(filepath) {
-		//  // Read file source.
-		//  return grunt.file.read(filepath);
-		//});
-		//
-		var src = grunt.file.read(filepathIn);
-		// // Convert to object, find build and increment number
-		var inputConfig = JSON.parse(src);
-		buildNumber = inputConfig.build;
-		grunt.log.warn('file: >>' + buildNumber + '<<');
+        //Prepare readable content of file
+        var modifiedInputConfig = JSON.stringify(inputConfig, null, '\t');
 
-		buildNumber += 1;
+        // Write the destination file
+        grunt.file.write(options.pkg, modifiedInputConfig);
 
-		inputConfig.build = buildNumber;
+        // Print a success message
+        grunt.log.writeln('File "' + options.pkg + '" updated.');
+    });
 
-		var modifiedInputConfig = JSON.stringify(inputConfig, null, '\t');
+    grunt.registerMultiTask('label', 'Grunt task to print version on page', function () {
 
-		grunt.log.writeln('test: ' + buildNumber);
+        //TODO move this to task body
+        var prepareLabel = function (pattern) {
+                var src = grunt.file.read(options.pkg);
+                var inputConfig = JSON.parse(src);
 
-		// Write the destination file.
-		grunt.file.write(filepathOut, modifiedInputConfig);
+                var result = pattern;
+                result = result.replace('%version%', inputConfig.version);
+                result = result.replace('%build%', inputConfig.build);
+                result = result.replace('%date%', new Date());
 
-		// Print a success message.
-		grunt.log.writeln('File "' + filepathOut + '" updated.');
-		//});
-	});
+                return result;
+            },
+            // TODO divide to preparation (to be placed out of loop)
+            // TODO and to replace (leave inside loop)
+            createLabel = function (path, pattern, labelContent) {
+                if (!grunt.file.exists(path)) {
+                    grunt.log.warn('Source file "' + path + '" not found.');
+                    return false;
+                }
 
-	var prepareLabel = function(pattern) {
-		var result = pattern.replace('%build%', buildNumber);
-		return result;
-	};
+                var file = grunt.file.read(path);
 
-	var createLabel = function(path, labelContent) {
-		grunt.log.warn('LABEL: >>' + path + '<<');
+                var label = '<div class="dev-label">' + labelContent + '</div>';
 
-		if (!grunt.file.exists(path)) {
-			grunt.log.warn('Source file "' + path + '" not found.');
-			return false;
-		}
+                file = file.replace(pattern, label);
 
-		var file = grunt.file.read(path);
+                grunt.file.write(path, file);
+            };
 
-		var label = '<div class="dev-label">'+labelContent+'</div>';
+        // Merge default options with customized in Gruntfile.js
+        var options = this.options({
+            pkg: 'package.json',
+            dir: '',
+            file: ['index.html'],
+            label: 'version: %version% | build: %build% | generated: %date%',
+            labelPattern: '<!-- version-label -->'
+        });
 
-		file = file.replace(labelPattern, label);
+        // Prepare label (merge pattern with real values)
+        var label = prepareLabel(options.label);
 
-		grunt.file.write(path, file);
-	};
+        // Replace pattern tag with real content
+        options.file.forEach(function (f) {
+            createLabel(options.dir + f, options.labelPattern, label);
+        });
 
-	grunt.registerMultiTask('label', 'Grunt task to print version on page', function () {
-
-		var options = this.options({
-			dir: '',
-			file: ['index.html'],
-			label: 'version: %version% | build: %build%'
-		});
-
-		var label = prepareLabel(options.label);
-
-		options.file.forEach(function (f) {
-			createLabel(options.dir+f, label);
-		});
-
-		grunt.log.warn('LABEL: >>' + buildNumber + '<<');
-	});
+        // Print a success message
+        grunt.log.writeln('Generated label: ' + label);
+    });
 
 
 };

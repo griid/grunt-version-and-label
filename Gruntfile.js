@@ -48,8 +48,7 @@ module.exports = function (grunt) {
 			default_options: {},
 			custom_options: {
 				options: {
-					dir: 'test/tmp/',
-					pkg: 'build.json'
+					pkg: 'test/tmp/build.json'
 				}
 			}
 		},
