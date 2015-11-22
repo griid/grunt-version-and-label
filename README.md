@@ -1,6 +1,11 @@
 # grunt-version-and-label
 
-> Grunt task to manage versioning and displaying on page
+> Grunt tasks to manage versioning and displaying on page.
+> Package consists two tasks:
+>
+> version - bumps build number
+>
+> label - generates and prints label into html file
 
 ## Getting Started
 This plugin requires Grunt `~0.4.5`
@@ -17,37 +22,108 @@ Once the plugin has been installed, it may be enabled inside your Gruntfile with
 grunt.loadNpmTasks('grunt-version-and-label');
 ```
 
-## The "version_and_label" task
+## Overview
+This package consists two tasks which bumps your build number and creates label
+ that will be printed on your page.
 
-### Overview
-In your project's Gruntfile, add a section named `version_and_label` to the data object passed into `grunt.initConfig()`.
+Let's say you're working on project that is still under development but needs
+QA team to check it. Label with build number visible on page will help you to
+track spotted issue.
+
+In your project's Gruntfile, add sections named `version` and `label` to the
+data object passed into `grunt.initConfig()`.
 
 ```js
 grunt.initConfig({
-  version_and_label: {
+  version: {
+		default_options: {
+		},
+		custom_options: {
+			options: {
+				pkg: 'build.json'
+			}
+		}
+	},
+	label: {
+		custom_options: {
+			options: {
+				dir: 'html/'
+			}
+		}
+	},
+});
+```
+
+## The "version" task
+
+```js
+grunt.initConfig({
+  label: {
     options: {
       // Task-specific options go here.
     },
     your_target: {
       // Target-specific file lists and/or options go here.
     },
-  },
+  }
 });
 ```
 
 ### Options
 
-#### options.separator
+#### options.pkg
 Type: `String`
-Default value: `',  '`
+Default value: `'package.json'`
 
-A string value that is used to do something with whatever.
+A filename, where version and build number is stored.
 
-#### options.punctuation
+## The "label" task
+
+```js
+grunt.initConfig({
+  label: {
+    options: {
+      // Task-specific options go here.
+    },
+    your_target: {
+      // Target-specific file lists and/or options go here.
+    },
+  }
+});
+```
+
+### Options
+
+#### options.pkg
 Type: `String`
-Default value: `'.'`
+Default value: `'package.json'`
 
-A string value that is used to do something else with whatever else.
+A filename, where version and build number is stored.
+
+#### options.dir
+Type: `String`
+Default value: `''`
+
+A path to folder with files to modify. It will be build/out/dist folder.
+
+#### options.file
+Type: `Array`
+Default value: `'['index.html']'`
+
+An array with filenames existing in options.dir folder thats needs a label with version and build.
+
+#### options.label
+Type: `String`
+Default value: `'version: %version% | build: %build% | generated: %date%'`
+
+A pattern used to build a label content.
+
+#### options.labelPattern
+Type: `String`
+Default value: `'<!-- version-label -->'`
+
+A pattern in html page that will be used to place label into your code.
+
 
 ### Usage Examples
 
@@ -56,12 +132,22 @@ In this example, the default options are used to do something with whatever. So 
 
 ```js
 grunt.initConfig({
-  version_and_label: {
-    options: {},
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
+  version: {
+  			default_options: {},
+  			custom_options: {
+  				options: {
+  					pkg: 'test/tmp/build.json'
+  				}
+  			}
+  		},
+
+  		label: {
+  			custom_options: {
+  				options: {
+  					dir: 'test/tmp/'
+  				}
+  			}
+  		},
 });
 ```
 
